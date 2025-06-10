@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from "mongoose";
-import personaRouter from "./routes/personaRouter.js";
+import userRouter from "./routes/userRouter.js";
 
 const app = express();
 
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     }
 });
 
-app.use('/personas', personaRouter);
+app.use('/user', userRouter);
 
 app.listen(process.env.EXPRESS_PORT, () => {
     console.log(`Server is listening on port ${process.env.EXPRESS_PORT}`);
