@@ -41,6 +41,6 @@ app.use((req, res, next) => {
 app.use('/user', userRouter);
 app.use('/classroom', classroomRouter);
 
-app.listen(process.env.EXPRESS_PORT, () => {
+app.listen(process.env.EXPRESS_PORT, '0.0.0.0', () => {
     console.log(`Server is listening on port ${process.env.EXPRESS_PORT}`);
 });
