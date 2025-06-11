@@ -1,7 +1,10 @@
 import express from 'express';
 import mongoose from "mongoose";
+import dotenv from 'dotenv';
 import userRouter from "./routes/userRouter.js";
 import classroomRouter from "./routes/classroomRouter.js";
+
+dotenv.config();
 
 const app = express();
 
@@ -30,7 +33,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-    const acceptHeader = req.headers['accept'];
+    const acceptHeader = req.headers['accept'] || '';
     if (acceptHeader.includes('application/json') || req.method === 'OPTIONS') {
         next();
     } else {
@@ -41,6 +44,13 @@ app.use((req, res, next) => {
 app.use('/user', userRouter);
 app.use('/classroom', classroomRouter);
 
-app.listen(process.env.EXPRESS_PORT, '0.0.0.0', () => {
-    console.log(`Server is listening on port ${process.env.EXPRESS_PORT}`);
+const port = process.env.EXPRESS_PORT || 8000;
+
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server is listening on port ${port}`);
 });
+
+app.get('/test', (req, res) => {
+    res.json({ message: 'Server is online' });
+});
+
