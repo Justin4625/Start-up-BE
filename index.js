@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from "mongoose";
 import userRouter from "./routes/userRouter.js";
+import classroomRouter from "./routes/classroomRouter.js";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/user', userRouter);
+app.use('/classroom', classroomRouter);
 
 app.listen(process.env.EXPRESS_PORT, () => {
     console.log(`Server is listening on port ${process.env.EXPRESS_PORT}`);

@@ -2,6 +2,7 @@ import User from "../schemas/User.js";
 import {Router} from "express";
 import {faker} from "@faker-js/faker";
 import bcrypt from 'bcrypt';
+import Classroom from "../schemas/Classroom.js";
 
 const userRouter = new Router();
 
@@ -67,13 +68,19 @@ userRouter.post('/', async (req, res) => {
             return res.status(400).json({message: "Een of meerdere velden zijn niet goed ingevult"});
         }
 
+        const existingClassroom = await Classroom.findOne({ classroom_code: klassencode.trim() })
+        if (!existingClassroom) {
+            return res.status(400).json({message: "Een onjuiste code is ingevoerd"});
+        }
+
+
         const hashedPassword = await bcrypt.hash(wachtwoord, 10);
 
         const user = new User({
             first_name: voornaam,
             last_name: achternaam,
             password: hashedPassword,
-            class_code: klassencode
+            classroom_id: existingClassroom._id
         });
 
         await user.save()
