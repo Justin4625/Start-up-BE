@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     password: { type: String, required: true },
-    classroom_id: { type: String, ref: 'Classroom', default: null },
+    classroom_id: { type: String, ref: 'Classroom', required: true },
     created_at: {type: Date, default: Date.now},
 });
 

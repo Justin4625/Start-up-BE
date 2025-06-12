@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const teacherScema = new mongoose.Schema({
+const teacherSchema = new mongoose.Schema({
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -8,6 +8,6 @@ const teacherScema = new mongoose.Schema({
     created_at: {type: Date, default: Date.now},
 });
 
-const teacher = mongoose.model('teacher', teacherScema);
+const teacher = mongoose.model('Teacher', teacherSchema);
 
 export default teacher;

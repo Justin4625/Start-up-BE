@@ -1,8 +1,8 @@
 import User from "../schemas/User.js";
 import {Router} from "express";
-import {faker} from "@faker-js/faker";
 import bcrypt from 'bcrypt';
 import Classroom from "../schemas/Classroom.js";
+import SortingGame from "../schemas/SortingGame.js";
 
 const userRouter = new Router();
 
@@ -84,7 +84,14 @@ userRouter.post('/', async (req, res) => {
         });
 
         await user.save()
-        res.status(201).json(user)
+
+        const sortingGame = new SortingGame({
+            user_id: user._id,
+        });
+
+        await sortingGame.save();
+
+        res.status(201).json({user, sortingGame})
     } catch(err) {
         console.error(err)
         res.status(400).json({ error: err.message })
@@ -186,6 +193,16 @@ userRouter.post('/login', async (req, res) => {
 //         res.status(400).json({message: "Invalid persona ID"});
 //     }
 // });
+
+userRouter.delete('/allusers', async (req, res) => {
+    try {
+        const result = await User.deleteMany({})
+        res.json({ message: `${ result.deletedCount} gebruikers verwijdert` });
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ error: err.message })
+    }
+})
 
 userRouter.options('/', async (req, res) => {
     res.set('Allow', 'GET, POST, OPTIONS');
