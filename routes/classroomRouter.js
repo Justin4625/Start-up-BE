@@ -1,9 +1,6 @@
 import Classroom from "../schemas/Classroom.js";
 import {Router} from "express";
 import {faker} from "@faker-js/faker";
-import bcrypt from 'bcrypt';
-import User from "../schemas/User.js";
-import userRouter from "./userRouter.js";
 
 const classroomRouter = new Router();
 

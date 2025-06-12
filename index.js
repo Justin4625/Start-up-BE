@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from "mongoose";
 import userRouter from "./routes/userRouter.js";
 import classroomRouter from "./routes/classroomRouter.js";
+import sortingGameRouter from "./routes/sortingGameRouter.js";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
     }
 });
 
+app.use('/sortingGame', sortingGameRouter)
 app.use('/user', userRouter);
 app.use('/classroom', classroomRouter);
 
