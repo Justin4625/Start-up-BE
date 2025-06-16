@@ -3,6 +3,7 @@ import SortingGame from "../schemas/SortingGame.js";
 import Classroom from "../schemas/Classroom.js";
 import User from "../schemas/User.js";
 import userRouter from "./userRouter.js";
+import classroomRouter from "./classroomRouter.js";
 
 const sortingGameRouter = new Router()
 
@@ -68,5 +69,17 @@ sortingGameRouter.patch('/:id/:operator', async(req, res) => {
         res.status(400).json({ error: err.message })
     }
 })
+
+sortingGameRouter.options('/', async (req, res) => {
+    res.set('Allow', 'GET, POST, OPTIONS');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.status(204).send();
+});
+
+sortingGameRouter.options('/:id', async (req, res) => {
+    res.set('Allow', 'GET, PUT, DELETE, OPTIONS');
+    res.set('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
+    res.status(204).send();
+});
 
 export default sortingGameRouter
