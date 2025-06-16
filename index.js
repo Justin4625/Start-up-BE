@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import userRouter from "./routes/userRouter.js";
 import classroomRouter from "./routes/classroomRouter.js";
 import sortingGameRouter from "./routes/sortingGameRouter.js";
+import avatarRouter from "./routes/avatarRouter.js";
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/sortingGame', sortingGameRouter)
+app.use('/avatar', avatarRouter)
 app.use('/user', userRouter);
 app.use('/classroom', classroomRouter);
 
