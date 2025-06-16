@@ -1,6 +1,8 @@
 import Classroom from "../schemas/Classroom.js";
 import {Router} from "express";
 import {faker} from "@faker-js/faker";
+import SortingGame from "../schemas/SortingGame.js";
+import sortingGameRouter from "./sortingGameRouter.js";
 
 const classroomRouter = new Router();
 
@@ -17,6 +19,20 @@ classroomRouter.get('/', async (req, res) => {
             }
         }
     })
+})
+
+classroomRouter.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const classroom = await Classroom.findById(id);
+        if (classroom) {
+            res.status(200).json(classroom);
+        } else {
+            res.status(404).json({message: `klas met id: ${id} niet gevonden`});
+        }
+    } catch (err) {
+        res.status(400).json({message: "Onjuiste ID"});
+    }
 })
 
 classroomRouter.post('/', async (req, res) => {
