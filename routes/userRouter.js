@@ -20,21 +20,21 @@ userRouter.get('/', async (req, res) => {
         }
     });
 });
-//
-// personasRouter.get('/:id', async (req, res) => {
-//     const id = req.params.id;
-//     try {
-//         const persona = await User.findById(id);
-//         if (persona) {
-//             res.status(200).json(persona);
-//         } else {
-//             res.status(404).json({message: `Persona ${id} not found`});
-//         }
-//     } catch (error) {
-//         res.status(400).json({message: "Invalid persona ID"});
-//     }
-// });
-//
+
+userRouter.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const user = await User.findById(id);
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({message: `gebruiker met id: ${id} niet gevonden`});
+        }
+    } catch (err) {
+        res.status(400).json({message: "Onjuiste ID"});
+    }
+});
+
 // personasRouter.post('/', async (req, res, next) => {
 //     const {name, arcana, level, price, METHOD, count} = req.body;
 //
