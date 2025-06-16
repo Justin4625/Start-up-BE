@@ -1,9 +1,5 @@
-import Classroom from "../schemas/Classroom.js";
 import {Router} from "express";
-import {faker} from "@faker-js/faker";
 import Avatar from "../schemas/Avatar.js";
-import User from "../schemas/User.js";
-import userRouter from "./userRouter.js";
 
 const avatarRouter = new Router();
 

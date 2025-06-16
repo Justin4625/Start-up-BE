@@ -5,6 +5,7 @@ import userRouter from "./routes/userRouter.js";
 import classroomRouter from "./routes/classroomRouter.js";
 import sortingGameRouter from "./routes/sortingGameRouter.js";
 import avatarRouter from "./routes/avatarRouter.js";
+import petRouter from "./routes/PetRoutes.js";
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use((req, res, next) => {
 
 app.use('/sortingGame', sortingGameRouter)
 app.use('/avatar', avatarRouter)
+app.use('/pet', petRouter)
 app.use('/user', userRouter);
 app.use('/classroom', classroomRouter);
 
