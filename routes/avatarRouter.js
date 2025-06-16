@@ -2,6 +2,8 @@ import Classroom from "../schemas/Classroom.js";
 import {Router} from "express";
 import {faker} from "@faker-js/faker";
 import Avatar from "../schemas/Avatar.js";
+import User from "../schemas/User.js";
+import userRouter from "./userRouter.js";
 
 const avatarRouter = new Router();
 
@@ -52,6 +54,24 @@ avatarRouter.post('/', async (req, res) => {
         res.status(400).json({ error: err.message })
     }
 });
+
+avatarRouter.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const avatar = await Avatar.findById(id);
+        if (!avatar) {
+            return res.status(404).json({ message: "Avatar niet gevonden" });
+        }
+
+        await avatar.deleteOne();
+        res.json({ message: "Avatar verwijderd" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 avatarRouter.options('/', async (req, res) => {
     res.set('Allow', 'GET, POST, OPTIONS');
