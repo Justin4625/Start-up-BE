@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     last_name: { type: String, required: true },
     password: { type: String, required: true },
     classroom_id: { type: String, ref: 'Classroom', required: true },
+    avatar: { type: String, default: "" },
     created_at: {type: Date, default: Date.now},
 });
 

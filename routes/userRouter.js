@@ -36,32 +36,6 @@ userRouter.get('/:id', async (req, res) => {
     }
 });
 
-// personasRouter.post('/', async (req, res, next) => {
-//     const {name, arcana, level, price, METHOD, count} = req.body;
-//
-//     if (METHOD === 'SEED') {
-//         const count = parseInt(req.body.count, 10);
-//         if (isNaN(count) || count <= 0) {
-//             return res.status(400).json({message: "Invalid count"});
-//         }
-//         try {
-//             for (let i = 0; i < count; i++) {
-//                 let persona = new User({
-//                     name: faker.person.fullName(),
-//                     arcana: faker.lorem.text(),
-//                     level: faker.number.int(),
-//                     price: faker.number.int()
-//                 });
-//                 await persona.save();
-//             }
-//             res.status(201).json({message: `${count} personas seeded`});
-//         } catch (error) {
-//             res.status(500).json({message: "Internal server error"});
-//         }
-//     } else {
-//         next();
-//     }
-// });
 userRouter.post('/', async (req, res) => {
     try {
         const { voornaam, achternaam, wachtwoord, klassencode} = req.body;
@@ -89,12 +63,6 @@ userRouter.post('/', async (req, res) => {
         const sortingGame = new SortingGame({
             user_id: user._id,
         });
-
-        // const craftingGame = new CraftingGame({
-        //     user_id: user._id,
-        //     //Put all craftable pets here!!
-        // });
-
 
         await sortingGame.save();
 
@@ -141,65 +109,30 @@ userRouter.post('/login', async (req, res) => {
     }
 })
 
+userRouter.post('/avatar', async (req, res) => {
+    try {
+        const { userId, avatar } = req.body;
 
-// personasRouter.put('/:id', async (req, res) => {
-//     const id = req.params.id;
-//     const {name, arcana, level, price} = req.body;
-//     try {
-//         let persona = await User.findById(id);
-//         if (persona) {
-//             if (!name || !arcana || !level || !price) {
-//                 return res.status(400).json({message: "Missing required fields: name, arcana, level, price"});
-//             }
-//             persona.name = name || persona.name;
-//             persona.arcana = arcana || persona.arcana;
-//             persona.level = level || persona.level;
-//             persona.price = price || persona.price;
-//             await persona.save();
-//             res.status(200).json({message: `Persona ${id} updated`});
-//         } else {
-//             res.status(404).json({message: `Persona ${id} not found`});
-//         }
-//     } catch (error) {
-//         res.status(400).json({message: "Invalid persona ID"});
-//     }
-// });
-//
-// personasRouter.patch('/:id', async (req, res) => {
-//     const id = req.params.id;
-//     const updateData = req.body;
-//
-//     try {
-//         let persona = await User.findById(id);
-//         if (persona) {
-//             Object.keys(updateData).forEach(key => {
-//                 if (key in persona) {
-//                     persona[key] = updateData[key];
-//                 }
-//             });
-//             await persona.save();
-//             res.status(200).json({message: `Persona ${id} updated`});
-//         } else {
-//             res.status(404).json({message: `Persona ${id} not found`});
-//         }
-//     } catch (error) {
-//         res.status(400).json({message: "Invalid persona ID"});
-//     }
-// });
-//
-// personasRouter.delete('/:id', async (req, res) => {
-//     const id = req.params.id;
-//     try {
-//         const result = await User.deleteOne({_id: id});
-//         if (result.deletedCount > 0) {
-//             res.status(204).json({message: `Persona ${id} deleted`});
-//         } else {
-//             res.status(404).json({message: `Persona ${id} not found`});
-//         }
-//     } catch (error) {
-//         res.status(400).json({message: "Invalid persona ID"});
-//     }
-// });
+        if (!userId || !avatar) {
+            return res.status(400).json({ message: "userId en avatar zijn verplicht" });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { avatar: avatar },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "Gebruiker niet gevonden" });
+        }
+
+        res.status(200).json({ message: "Avatar succesvol opgeslagen", avatar: updatedUser.avatar });
+    } catch (err) {
+        console.error("Fout bij updaten avatar:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
 
 userRouter.delete('/allusers', async (req, res) => {
     try {
