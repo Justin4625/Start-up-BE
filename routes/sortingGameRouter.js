@@ -47,7 +47,7 @@ sortingGameRouter.patch('/:id/:operator', async(req, res) => {
         }
 
         function applyOperator(current, change) {
-            if (req.params.operator === '+' ) {
+            if (req.params.operator === 'plus' ) {
                 return current + change
             } else if(current >= change) {
                 return current - change
