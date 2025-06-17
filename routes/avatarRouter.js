@@ -1,3 +1,6 @@
+//Currently unused
+
+
 import {Router} from "express";
 import Avatar from "../schemas/Avatar.js";
 

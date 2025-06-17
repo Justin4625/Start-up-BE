@@ -6,6 +6,9 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     classroom_id: { type: String, ref: 'Classroom', required: true },
     avatar: { type: String, default: "" },
+    pet_id: { type: String, ref: 'Pet', default: "" },
+    //Logic reminder: Get all unlocked pet ids from user, show all unlocked pets
+    unlockedPets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Pet' }],
     created_at: {type: Date, default: Date.now},
 });
 
