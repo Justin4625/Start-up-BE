@@ -3,6 +3,7 @@ import {Router} from "express";
 import bcrypt from 'bcrypt';
 import Classroom from "../schemas/Classroom.js";
 import SortingGame from "../schemas/SortingGame.js";
+import CraftingGame from "../schemas/CraftingGame.js";
 
 const userRouter = new Router();
 
@@ -88,6 +89,12 @@ userRouter.post('/', async (req, res) => {
         const sortingGame = new SortingGame({
             user_id: user._id,
         });
+
+        // const craftingGame = new CraftingGame({
+        //     user_id: user._id,
+        //     //Put all craftable pets here!!
+        // });
+
 
         await sortingGame.save();
 
