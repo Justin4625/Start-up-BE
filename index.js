@@ -46,7 +46,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/sortingGame', sortingGameRouter)
-app.use('/avatar', avatarRouter)
 app.use('/pet', petRouter)
 app.use('/user', userRouter);
 app.use('/classroom', classroomRouter);
