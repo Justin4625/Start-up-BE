@@ -82,7 +82,7 @@ sortingGameRouter.options('/:id', async (req, res) => {
     res.status(204).send();
 });
 
-sortingGameRouter.options('/:id/:modifier(+|-)', (req, res) => {
+sortingGameRouter.options('/:id/:operator', (req, res) => {
     res.set('Allow', 'PATCH, OPTIONS');
     res.set('Access-Control-Allow-Methods', 'PATCH, OPTIONS');
     res.status(204).send();
