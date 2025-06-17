@@ -1,3 +1,5 @@
+//Currently unused
+
 import mongoose from 'mongoose';
 
 const avatarSchema = new mongoose.Schema({

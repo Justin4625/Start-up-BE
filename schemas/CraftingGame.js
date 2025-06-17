@@ -1,8 +1,10 @@
+//Currently unused
+
 import mongoose from 'mongoose'
 
 const craftingGameSchema = new mongoose.Schema({
     user_id: { type: String, ref: 'User', required: true },
-    pet_id: { type: String, ref: 'Avatar', required: true},
+    pet_id: { type: String, ref: 'Pet', required: true},
     created_at: {type: Date, default: Date.now},
 })
 

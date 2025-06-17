@@ -1,5 +1,6 @@
 import {Router} from "express";
 import Pet from "../schemas/Pet.js";
+import User from "../schemas/User.js";
 
 
 const petRouter = new Router();
@@ -19,6 +20,37 @@ petRouter.get('/', async (req, res) => {
     })
 })
 
+//Route for findin all of the pets that the user hasnt unlocked yet
+petRouter.get('/craftable/:id', async (req, res) => {
+    const userId = req.params.id
+    try {
+        const user = await User.findById(userId)
+        if (user) {
+            const pets = Pet.find()
+
+            const craftablePets = pets.filter(pet =>
+                !user.unlockedPets.includes(pet._id)
+            )
+
+            res.status(200).json({
+                items: craftablePets,
+                _links: {
+                    self: {
+                        href: `${process.env.BASE_URL}pet`
+                    },
+                    collection: {
+                        href: `${process.env.BASE_URL}pet`
+                    }
+                }
+            })
+        } else {
+            res.status(404).json({message: `User met id: ${id} niet gevonden`});
+        }
+    } catch(err) {
+        res.status(400).json({message: "Onjuiste ID"});
+    }
+})
+
 petRouter.get('/:id', async (req, res) => {
     const id = req.params.id;
     try {
@@ -35,14 +67,14 @@ petRouter.get('/:id', async (req, res) => {
 
 petRouter.post('/', async (req, res) => {
     try {
-        const { name, image_urls, paper, food, plastic, rest} = req.body;
-        if ([name, image_urls, paper, food, plastic, rest].some(value => value === undefined)) {
+        const { name, image_url, paper, food, plastic, rest} = req.body;
+        if ([name, image_url, paper, food, plastic, rest].some(value => value === undefined)) {
             return res.status(400).json({ message: "Een of meerdere velden zijn niet goed ingevuld" });
         }
 
         const pet = new Pet({
             name: name,
-            image_urls: image_urls,
+            image_url: image_url,
             paper: paper,
             food: food,
             plastic: plastic,

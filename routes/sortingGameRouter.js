@@ -36,6 +36,23 @@ sortingGameRouter.get('/:id', async (req, res) => {
     }
 })
 
+sortingGameRouter.get('/user/:id', async (req, res) => {
+    const userId = req.params.id
+
+    try {
+        const game = await SortingGame.findOne({ user_id: userId })
+
+        if (game) {
+            res.status(200).json(game)
+        } else {
+            res.status(404).json({ message: `Game save voor gebruiker met id: ${userId} niet gevonden` })
+        }
+    } catch (err) {
+        res.status(400).json({ message: "Ongeldige gebruiker ID" })
+    }
+})
+
+
 sortingGameRouter.patch('/:id/:operator', async(req, res) => {
     try {
         const {paper, food, plastic, rest, high_score} = req.body
