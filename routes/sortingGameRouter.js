@@ -69,23 +69,26 @@ sortingGameRouter.patch('/:id/:operator', async(req, res) => {
         res.status(400).json({ error: err.message })
     }
 })
-
-sortingGameRouter.options('/', async (req, res) => {
-    res.set('Allow', 'GET, POST, OPTIONS');
-    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+sortingGameRouter.options('/', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.status(204).send();
 });
 
-sortingGameRouter.options('/:id', async (req, res) => {
-    res.set('Allow', 'GET, PUT, DELETE, OPTIONS');
-    res.set('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
+sortingGameRouter.options('/:id', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
     res.status(204).send();
 });
 
 sortingGameRouter.options('/:id/:operator', (req, res) => {
-    res.set('Allow', 'PATCH, OPTIONS');
-    res.set('Access-Control-Allow-Methods', 'PATCH, OPTIONS');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, OPTIONS');
     res.status(204).send();
 });
+
 
 export default sortingGameRouter
