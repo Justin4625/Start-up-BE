@@ -1,3 +1,5 @@
+//Currently unused
+
 import mongoose from 'mongoose'
 
 const craftingGameSchema = new mongoose.Schema({
