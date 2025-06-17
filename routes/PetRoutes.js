@@ -35,14 +35,14 @@ petRouter.get('/:id', async (req, res) => {
 
 petRouter.post('/', async (req, res) => {
     try {
-        const { name, image_url, paper, food, plastic, rest} = req.body;
-        if ([name, image_url, paper, food, plastic, rest].some(value => value === undefined)) {
+        const { name, image_urls, paper, food, plastic, rest} = req.body;
+        if ([name, image_urls, paper, food, plastic, rest].some(value => value === undefined)) {
             return res.status(400).json({ message: "Een of meerdere velden zijn niet goed ingevuld" });
         }
 
         const pet = new Pet({
             name: name,
-            image_url: image_url,
+            image_urls: image_urls,
             paper: paper,
             food: food,
             plastic: plastic,

@@ -95,6 +95,7 @@ userRouter.post('/', async (req, res) => {
         //     //Put all craftable pets here!!
         // });
 
+
         await sortingGame.save();
 
         res.status(201).json({user, sortingGame})
