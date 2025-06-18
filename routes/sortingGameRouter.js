@@ -4,6 +4,7 @@ import Classroom from "../schemas/Classroom.js";
 import User from "../schemas/User.js";
 import userRouter from "./userRouter.js";
 import classroomRouter from "./classroomRouter.js";
+import Pet from "../schemas/Pet.js";
 
 const sortingGameRouter = new Router()
 
@@ -55,7 +56,7 @@ sortingGameRouter.get('/user/:id', async (req, res) => {
 
 sortingGameRouter.patch('/:id/:operator', async(req, res) => {
     try {
-        const {paper, food, plastic, rest, high_score} = req.body
+        const {paper, food, plastic, rest, high_score, toyId} = req.body
 
         const existingGame = await SortingGame.findOne({ user_id: req.params.id });
 
@@ -63,26 +64,52 @@ sortingGameRouter.patch('/:id/:operator', async(req, res) => {
             return res.status(404).json({ message: 'Geen game save is gevonden voor deze gebruiker' });
         }
 
-        function applyOperator(current, change) {
+        function applyOperator(current, change, label) {
             if (req.params.operator === 'plus' ) {
                 return current + change
             } else if(current >= change) {
                 return current - change
             } else {
-                throw new Error("Je hebt niet genoeg materialen of er is iets fout gegaan tijdens het aanmaken!")
+                throw new Error(`Niet genoeg ${label} om ${req.params.operator === 'min' ? 'te dit te maken' : 'bij te werken'}.`)
             }
         }
 
-        if (paper !== undefined) existingGame.paper = applyOperator(existingGame.paper, paper)
-        if (food !== undefined) existingGame.food = applyOperator(existingGame.food, food)
-        if (plastic !== undefined) existingGame.plastic = applyOperator(existingGame.plastic, plastic)
-        if (rest !== undefined) existingGame.rest = applyOperator(existingGame.rest, rest)
-        if (high_score !== undefined)  existingGame.high_score = high_score
+        if (req.params.operator !== 'plus' && toyId) {
+            const pet = await Pet.findById(toyId)
+            if (!pet) {
+                return res.status(404).json({ message: "Speelgoed niet gevonden" })
+            }
+
+            existingGame.paper = applyOperator(existingGame.paper, pet.paper || 0, "papier")
+            existingGame.food = applyOperator(existingGame.food, pet.food || 0, "gft")
+            existingGame.plastic = applyOperator(existingGame.plastic, pet.plastic || 0, "plastic")
+            existingGame.rest = applyOperator(existingGame.rest, pet.rest || 0, "restafval")
+
+
+            const user = await User.findById(req.params.id)
+            if (!user) {
+                return res.status(404).json({ message: "Gebruiker niet gevonden" })
+            }
+
+            if (!user.unlockedPets.includes(pet._id)) {
+                user.unlockedPets.push(pet._id)
+                await user.save()
+            }
+
+        }
+
+        if (req.params.operator === 'plus') {
+            if (paper !== undefined) existingGame.paper = applyOperator(existingGame.paper, paper, "papier")
+            if (food !== undefined) existingGame.food = applyOperator(existingGame.food, food, "gft")
+            if (plastic !== undefined) existingGame.plastic = applyOperator(existingGame.plastic, plastic, "plastic")
+            if (rest !== undefined) existingGame.rest = applyOperator(existingGame.rest, rest, "restafval")
+            if (high_score !== undefined)  existingGame.high_score = high_score
+        }
 
         await existingGame.save()
         res.status(200).json(existingGame)
     } catch(err) {
-        console.error(err)
+        console.error("Speelgoed error:", err.message)
         res.status(400).json({ error: err.message })
     }
 })
