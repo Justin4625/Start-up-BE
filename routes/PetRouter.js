@@ -27,14 +27,19 @@ petRouter.get('/craftable/:id', async (req, res) => {
         const user = await User.findById(userId)
         if (user) {
             const unlockedPets = user.unlockedPets || []; // ✅ fallback to empty array
-            const pets = await Pet.find();
+            const allPets = await Pet.find();
 
-            const craftablePets = pets.filter(pet =>
-                !unlockedPets.some(id => id.toString() === pet._id.toString())
-            );
+            const petsWithStatus = allPets.map(pet => {
+                const isUnlocked = unlockedPets.some(id => id.toString() === pet._id.toString());
+                return {
+                    ...pet.toObject(),
+                    isUnlocked
+                };
+            });
+
 
             res.status(200).json({
-                items: craftablePets,
+                items: petsWithStatus,
                 _links: {
                     self: {
                         href: `${process.env.BASE_URL}pet`
@@ -45,7 +50,8 @@ petRouter.get('/craftable/:id', async (req, res) => {
                 }
             })
         } else {
-            res.status(404).json({message: `User met id: ${id} niet gevonden`});
+            res.status(404).json({ message: `User met id: ${userId} niet gevonden` });
+
         }
     } catch(err) {
         console.error(err)
