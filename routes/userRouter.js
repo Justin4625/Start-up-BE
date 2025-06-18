@@ -99,6 +99,7 @@ userRouter.post('/login', async (req, res) => {
                 id: user._id,
                 voornaam: user.first_name,
                 achternaam: user.last_name,
+                avatar: user.avatar,
                 classroom_id: user.classroom_id,
                 created_at: user.created_at
             }
