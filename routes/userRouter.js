@@ -101,6 +101,7 @@ userRouter.post('/login', async (req, res) => {
                 achternaam: user.last_name,
                 avatar: user.avatar,
                 classroom_id: user.classroom_id,
+                pet_id: user.pet_id,
                 created_at: user.created_at
             }
         })
@@ -135,6 +136,34 @@ userRouter.post('/avatar', async (req, res) => {
     }
 });
 
+userRouter.post('/pet', async (req, res) => {
+    try {
+        const { userId, pet } = req.body;
+
+        if (!userId || !pet) {
+            return res.status(400).json({ message: "userId en pet zijn verplicht" });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { pet_id: pet },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "Gebruiker niet gevonden" });
+        }
+
+        res.status(200).json({
+            message: "Speelgoed succesvol opgeslagen",
+            pet_id: updatedUser.pet_id
+        });
+    } catch (err) {
+        console.error("Fout bij updaten speelgoed:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 userRouter.delete('/allusers', async (req, res) => {
     try {
         const result = await User.deleteMany({})
@@ -154,6 +183,13 @@ userRouter.options('/', async (req, res) => {
 userRouter.options('/:id', async (req, res) => {
     res.set('Allow', 'GET, PUT, DELETE, OPTIONS');
     res.set('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
+    res.status(204).send();
+});
+
+userRouter.options('/pet', (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*'); // of een specifieke origin in productie
+    res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Accept');
     res.status(204).send();
 });
 
