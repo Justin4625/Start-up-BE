@@ -187,9 +187,8 @@ userRouter.options('/:id', async (req, res) => {
 });
 
 userRouter.options('/pet', (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*'); // of een specifieke origin in productie
+    res.set('Access-Control-Allow-Origin', '*');
     res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.set('Access-Control-Allow-Headers', 'Content-Type, Accept');
     res.status(204).send();
 });
 
