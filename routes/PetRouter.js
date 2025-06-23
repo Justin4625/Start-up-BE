@@ -1,6 +1,7 @@
 import {Router} from "express";
 import Pet from "../schemas/Pet.js";
 import User from "../schemas/User.js";
+import userRouter from "./userRouter.js";
 
 
 const petRouter = new Router();
@@ -19,6 +20,20 @@ petRouter.get('/', async (req, res) => {
         }
     })
 })
+
+petRouter.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const user = await Pet.findById(id);
+        if (user) {
+            res.status(200).json(pet);
+        } else {
+            res.status(404).json({message: `Speelgoed met id: ${id} niet gevonden`});
+        }
+    } catch (err) {
+        res.status(400).json({message: "Onjuiste ID"});
+    }
+});
 
 //Route for findin all of the pets that the user hasnt unlocked yet
 petRouter.get('/craftable/:id', async (req, res) => {
