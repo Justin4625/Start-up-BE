@@ -11,7 +11,9 @@ const userRouter = new Router();
 const loginLimiter = rateLimit({
     windowMs: 2 * 60 * 1000,
     max: 5,
-    message: "Te veel mislukte inlogpogingen. Probeer het later opnieuw.",
+    message: {
+        message: "Te veel mislukte inlogpogingen. Probeer het later opnieuw.",
+    },
     handler: (req, res, next, options) => {
         console.warn(`[RATE LIMIT] Login – IP: ${req.ip}, Time: ${new Date().toISOString()}`);
         res.status(options.statusCode).json(options.message);
@@ -21,7 +23,9 @@ const loginLimiter = rateLimit({
 const registerLimiter = rateLimit({
     windowMs: 2 * 60 * 1000,
     max: 5,
-    message: "Te veel registratiepogingen in een korte tijd. Probeer het later opnieuw.",
+    message: {
+        message: "Te veel registratiepogingen in een korte tijd. Probeer het later opnieuw.",
+    },
     handler: (req, res, next, options) => {
         console.warn(`[RATE LIMIT] Register – IP: ${req.ip}, Time: ${new Date().toISOString()}`);
         res.status(options.statusCode).json(options.message);
