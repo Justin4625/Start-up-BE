@@ -3,7 +3,6 @@ import {Router} from "express";
 import bcrypt from 'bcrypt';
 import Classroom from "../schemas/Classroom.js";
 import SortingGame from "../schemas/SortingGame.js";
-import CraftingGame from "../schemas/CraftingGame.js";
 import rateLimit from "express-rate-limit";
 
 const userRouter = new Router();
@@ -195,15 +194,15 @@ userRouter.post('/pet', async (req, res) => {
     }
 });
 
-userRouter.delete('/allusers', async (req, res) => {
-    try {
-        const result = await User.deleteMany({})
-        res.json({ message: `${ result.deletedCount} gebruikers verwijdert` });
-    } catch (err) {
-        console.error(err)
-        res.status(500).json({ error: err.message })
-    }
-})
+// userRouter.delete('/allusers', async (req, res) => {
+//     try {
+//         const result = await User.deleteMany({})
+//         res.json({ message: `${ result.deletedCount} gebruikers verwijdert` });
+//     } catch (err) {
+//         console.error(err)
+//         res.status(500).json({ error: err.message })
+//     }
+// })
 
 userRouter.options('/', async (req, res) => {
     res.set('Allow', 'GET, POST, OPTIONS');
