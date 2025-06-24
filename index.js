@@ -4,8 +4,9 @@ import dotenv from 'dotenv';
 import userRouter from "./routes/userRouter.js";
 import classroomRouter from "./routes/classroomRouter.js";
 import sortingGameRouter from "./routes/sortingGameRouter.js";
-import avatarRouter from "./routes/avatarRouter.js";
 import petRouter from "./routes/PetRouter.js";
+import ApiKey from "./schemas/apiKey.js";
+import keyRouter from "./routes/keyRouter.js";
 
 dotenv.config();
 
@@ -31,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, apikey');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     next();
 });
@@ -44,6 +45,27 @@ app.use((req, res, next) => {
         res.status(406).send('This webservice only accepts JSON');
     }
 });
+
+// app.use('/keygen', (req, res, next) => {
+//     const apiHeader = req.headers['apikey']
+//     if (apiHeader === "superspookysecretadminapikeythatsuuuurelywontbeguessed") {
+//         next()
+//     } else {
+//         res.status(401).send('Alleen met de admin key mag je een key genereren')
+//     }
+// }, keyRouter)
+//
+// app.use(async(req, res, next) => {
+//     const apiHeader = req.headers['apikey'];
+//     let key = [];
+//     key = await ApiKey.findOne({});
+//
+//     if (apiHeader === key.key || apiHeader === "superspookysecretadminapikeythatsuuuurelywontbeguessed"  || req.method === 'OPTIONS') {
+//         next()
+//     } else {
+//         res.status(401).send({ error: "Geen toegang zonder API-key" });
+//     }
+// })
 
 app.use('/sortingGame', sortingGameRouter)
 app.use('/pet', petRouter)
