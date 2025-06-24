@@ -48,6 +48,12 @@ userRouter.post('/', async (req, res) => {
             return res.status(400).json({message: "Een onjuiste code is ingevoerd"});
         }
 
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+        if (!passwordRegex.test(wachtwoord)) {
+            return res.status(400).json({
+                message: 'Wachtwoord moet minstens 8 tekens lang zijn, minimaal 1 hoofdletter, 1 kleine letter en 1 cijfer bevatten'
+            })
+        }
 
         const hashedPassword = await bcrypt.hash(wachtwoord, 10);
 
