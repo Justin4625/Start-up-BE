@@ -115,21 +115,21 @@ sortingGameRouter.patch('/:id/:operator', async(req, res) => {
 })
 sortingGameRouter.options('/', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, apikey');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.status(204).send();
 });
 
 sortingGameRouter.options('/:id', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, apikey');
     res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, DELETE, OPTIONS');
     res.status(204).send();
 });
 
 sortingGameRouter.options('/:id/:operator', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, apikey');
     res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, OPTIONS');
     res.status(204).send();
 });
