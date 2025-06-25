@@ -46,26 +46,26 @@ app.use((req, res, next) => {
     }
 });
 
-// app.use('/keygen', (req, res, next) => {
-//     const apiHeader = req.headers['apikey']
-//     if (apiHeader === "superspookysecretadminapikeythatsuuuurelywontbeguessed") {
-//         next()
-//     } else {
-//         res.status(401).send('Alleen met de admin key mag je een key genereren')
-//     }
-// }, keyRouter)
-//
-// app.use(async(req, res, next) => {
-//     const apiHeader = req.headers['apikey'];
-//     let key = [];
-//     key = await ApiKey.findOne({});
-//
-//     if (apiHeader === key.key || apiHeader === "superspookysecretadminapikeythatsuuuurelywontbeguessed"  || req.method === 'OPTIONS') {
-//         next()
-//     } else {
-//         res.status(401).send({ error: "Geen toegang zonder API-key" });
-//     }
-// })
+app.use('/keygen', (req, res, next) => {
+    const apiHeader = req.headers['apikey']
+    if (apiHeader === "superspookysecretadminapikeythatsuuuurelywontbeguessed") {
+        next()
+    } else {
+        res.status(401).send('Alleen met de admin key mag je een key genereren')
+    }
+}, keyRouter)
+
+app.use(async(req, res, next) => {
+    const apiHeader = req.headers['apikey'];
+    let key = [];
+    key = await ApiKey.findOne({});
+
+    if (apiHeader === key.key || apiHeader === "superspookysecretadminapikeythatsuuuurelywontbeguessed"  || req.method === 'OPTIONS') {
+        next()
+    } else {
+        res.status(401).send({ error: "Geen toegang zonder API-key" });
+    }
+})
 
 app.use('/sortingGame', sortingGameRouter)
 app.use('/pet', petRouter)
