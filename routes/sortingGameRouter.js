@@ -23,20 +23,6 @@ sortingGameRouter.get('/', async (req, res) => {
     })
 })
 
-sortingGameRouter.get('/:id', async (req, res) => {
-    const id = req.params.id;
-    try {
-        const game = await SortingGame.findById(id);
-        if (game) {
-            res.status(200).json(game);
-        } else {
-            res.status(404).json({message: `game met id: ${id} niet gevonden`});
-        }
-    } catch (err) {
-        res.status(400).json({message: "Onjuiste ID"});
-    }
-})
-
 sortingGameRouter.get('/user/:id', async (req, res) => {
     const userId = req.params.id
 
@@ -52,6 +38,20 @@ sortingGameRouter.get('/user/:id', async (req, res) => {
         res.status(400).json({ message: "Ongeldige gebruiker ID" })
     }
 })
+sortingGameRouter.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const game = await SortingGame.findById(id);
+        if (game) {
+            res.status(200).json(game);
+        } else {
+            res.status(404).json({message: `game met id: ${id} niet gevonden`});
+        }
+    } catch (err) {
+        res.status(400).json({message: "Onjuiste ID"});
+    }
+})
+
 
 
 sortingGameRouter.patch('/:id/:operator', async(req, res) => {
