@@ -34,15 +34,13 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, apikey');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-    next();
+
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204)
+    }
+    next()
 });
 
-app.options('*', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, apikey');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-    res.sendStatus(204);
-});
 
 app.use((req, res, next) => {
     const acceptHeader = req.headers['accept'] || '';
