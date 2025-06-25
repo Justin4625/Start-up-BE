@@ -31,15 +31,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, apikey');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(204)
-    }
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, apikey')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
     next()
-});
+})
 
 
 app.use((req, res, next) => {
@@ -85,5 +81,14 @@ app.listen(port, '0.0.0.0', () => {
 
 app.get('/test', (req, res) => {
     res.json({ message: 'Server is online' });
+});
+
+app.options('/', (req, res) => {
+    res.json({message: 'Access-Control-Allow-Methods: GET, POST, OPTIONS, PATCH'})
+    res.header('Allow', 'GET, POST, OPTIONS');
+    res.header('Content-Type', 'application/x-www-form-urlencoded');
+    res.header('Accept', 'application/json, application/x-www-form-urlencoded');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PATCH');
+    res.status(204).send();
 });
 
