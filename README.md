@@ -27,6 +27,7 @@ In de toekomst zouden wij als mogelijk de volgende functionaliteiten toevoegen o
 1. Een router om leraren toe te voegen en te linken aan de klassen.
 2. Routers voor de volgende twee spellen die wij toe zouden willen voegen.
 3. Cookies voor de login functie.
-4. 
+4. Benodigdheden om een admin pagina op de front-end te onderstuenen.
+   
    
 
